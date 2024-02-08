@@ -1,0 +1,16 @@
+{
+  "packages": [
+    "python@3.11",
+    "poetry@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null",
+      "poetry init"
+    ],
+    "scripts": {
+      "start": "poetry run python -m app/main.py",
+      "dev": "poetry run task start"
+    }
+  }
+}

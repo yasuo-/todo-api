@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: "api-app"
+    volumes:
+      - .dockervenv:/app/.venv
+      - .:/app
+      - ./assets:/assets
+    build:
+      context: .
+      dockerfile: local/Dockerfile
+    command: uvicorn --host 0.0.0.0 app.main:app --reload
+    environment:
+      - WATCHFILES_FORCE_POLLING=true # hot reload
+    ports:
+      - 8000:8000
