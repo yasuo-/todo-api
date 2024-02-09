@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from app.routers import task, done
+
 app = FastAPI()
 
 
@@ -11,3 +13,6 @@ async def root() -> dict:
 @app.get("/hello/{name}", response_model=dict)
 async def say_hello(name: str) -> dict:
     return {"message": f"Hello {name}"}
+
+app.include_router(task.router)
+app.include_router(done.router)
