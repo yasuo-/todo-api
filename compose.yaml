@@ -13,5 +13,36 @@ services:
     command: uvicorn --host 0.0.0.0 app.main:app --reload
     environment:
       - WATCHFILES_FORCE_POLLING=true # hot reload
+    depends_on:
+      - db
     ports:
       - 8000:8000
+
+  db:
+    container_name: "postgres-db"
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+    #  - .env
+      - .env.local
+    restart: always
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: "postgres-pgadmin"
+    image: dpage/pgadmin4:7.4
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    env_file:
+      - .env.local
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 5051:80
+
+volumes:
+  postgres_data:
+  pgadmin_data:
