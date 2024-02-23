@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 import app.schemas.task as tasks_schema
 
 router = APIRouter()
@@ -28,5 +29,5 @@ async def update_task(task_id: int, body: tasks_schema.TaskCreate) -> tasks_sche
 
 
 @router.delete("/tasks/{task_id}", response_model=None)
-async def delete_task(task_id: int) -> None:
+async def delete_task(task_id: int) -> None:  # noqa: ARG001
     return None
