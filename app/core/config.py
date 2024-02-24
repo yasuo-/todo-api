@@ -29,7 +29,7 @@ class Settings(BaseSettings):
             scheme="postgresql+psycopg2",
             host=values.data.get("POSTGRES_SERVER"),
             port=int(port) if port else 5432,
-            path=values.data.get('POSTGRES_DB') or '',
+            path=values.data.get("POSTGRES_DB") or "",
             username=values.data.get("POSTGRES_USER"),
             password=values.data.get("POSTGRES_PASSWORD"),
         )
@@ -39,6 +39,3 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     log.info("Loading config settings from the environment...")
     return Settings()
-
-
-# settings = get_settings()

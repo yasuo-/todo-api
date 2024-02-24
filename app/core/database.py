@@ -1,5 +1,6 @@
 from collections.abc import Generator
 
+from sqlalchemy.engine import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlmodel import Session, create_engine
 
@@ -13,13 +14,12 @@ class DatabaseURINotSetError(ValueError):
         super().__init__(self.message)
 
 
-def get_engine():
+def get_engine() -> Engine:
     """Get the database engine."""
     settings = get_settings()
     if settings.SQLALCHEMY_DATABASE_URI is None:
         raise DatabaseURINotSetError
-    else:
-        return create_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True, echo=False, future=True)
+    return create_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True, echo=False, future=True)
 
 
 engine = get_engine()
