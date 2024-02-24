@@ -3,7 +3,7 @@ from collections.abc import Generator
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlmodel import Session, create_engine
 
-from app.core.config import settings
+from app.core.config import get_settings
 
 
 class DatabaseURINotSetError(ValueError):
@@ -13,11 +13,17 @@ class DatabaseURINotSetError(ValueError):
         super().__init__(self.message)
 
 
-if settings.SQLALCHEMY_DATABASE_URI is None:
-    raise DatabaseURINotSetError
-else:
-    engine = create_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True, echo=False, future=True)
-    session_factory = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True))
+def get_engine():
+    """Get the database engine."""
+    settings = get_settings()
+    if settings.SQLALCHEMY_DATABASE_URI is None:
+        raise DatabaseURINotSetError
+    else:
+        return create_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True, echo=False, future=True)
+
+
+engine = get_engine()
+session_factory = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True))
 
 
 def get_session() -> Generator[Session, None, None]:
