@@ -1,8 +1,8 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class TaskBase(BaseModel):
-    title: str | None = Field(None, title="Task title", description="The title of the task", example="sample task")
+    title: str | None = Field(None, title="Task title", description="The title of the task", examples=["sample task"])
 
 
 class TaskCreate(TaskBase):
@@ -11,16 +11,14 @@ class TaskCreate(TaskBase):
 
 class TaskCreateResponse(TaskBase):
     id: int
-    done: bool = Field(False, title="Task done", description="The status of the task", example=False)
+    done: bool = Field(False, title="Task done", description="The status of the task", examples=[False])
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Task(TaskBase):
     id: int
-    done: bool = Field(False, title="Task done", description="The status of the task", example=False)
+    done: bool = Field(False, title="Task done", description="The status of the task", examples=[False])
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
