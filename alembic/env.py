@@ -1,8 +1,7 @@
 import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 
@@ -21,8 +20,8 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
-from sqlmodel import SQLModel  # noqa
-from app.infra.db.base import *  # noqa
+from sqlmodel import SQLModel  # noqa PGH004
+from app.infra.db.base import *  # noqa PGH004
 
 target_metadata = SQLModel.metadata
 
@@ -33,7 +32,7 @@ target_metadata = SQLModel.metadata
 # ... etc.
 
 
-def get_url():
+def get_url() -> str:
     postgres_server = os.environ.get("POSTGRES_SERVER", "")
     postgres_user = os.environ.get("POSTGRES_USER", "")
     postgres_password = os.environ.get("POSTGRES_PASSWORD", "")

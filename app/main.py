@@ -12,13 +12,14 @@ async def root() -> dict:
 
 
 @app.on_event("startup")
-def on_startup():
+def on_startup() -> None:
     init_db()
 
 
 @app.get("/hello/{name}", response_model=dict)
 async def say_hello(name: str) -> dict:
     return {"message": f"Hello {name}"}
+
 
 app.include_router(task.router)
 app.include_router(done.router)

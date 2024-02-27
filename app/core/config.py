@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     """Settings for the application.
     This class is used to read the environment variables from the .env file.
     """
+
     POSTGRES_SERVER: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
@@ -35,6 +36,7 @@ class Settings(BaseSettings):
         )
 
         return str(dsn)
+
 
 @lru_cache
 def get_settings() -> Settings:
