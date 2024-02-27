@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from app.core.database import init_db
 from app.routers import done, task
 
 app = FastAPI()
@@ -8,6 +9,11 @@ app = FastAPI()
 @app.get("/")
 async def root() -> dict:
     return {"message": "Hello World"}
+
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
 
 
 @app.get("/hello/{name}", response_model=dict)

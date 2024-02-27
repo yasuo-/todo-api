@@ -16,16 +16,16 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     POSTGRES_PORT: str
-    SQLALCHEMY_DATABASE_URI: PostgresDsn | None = None
+    SQLALCHEMY_DATABASE_URI: str | None = None
 
-    @field_validator("SQLALCHEMY_DATABASE_URI", mode="after")
-    def assemble_db_connection(cls, v: str | None, values: ValidationInfo) -> PostgresDsn | None:  # noqa: N805
+    @field_validator("SQLALCHEMY_DATABASE_URI", mode="before")
+    def assemble_db_connection(cls, v: str | None, values: ValidationInfo) -> str | None:  # noqa: N805
         if isinstance(v, str):
             return v
 
         port = values.data.get("POSTGRES_PORT")
 
-        return PostgresDsn.build(
+        dsn: PostgresDsn = PostgresDsn.build(
             scheme="postgresql+psycopg2",
             host=values.data.get("POSTGRES_SERVER"),
             port=int(port) if port else 5432,
@@ -34,6 +34,7 @@ class Settings(BaseSettings):
             password=values.data.get("POSTGRES_PASSWORD"),
         )
 
+        return str(dsn)
 
 @lru_cache
 def get_settings() -> Settings:

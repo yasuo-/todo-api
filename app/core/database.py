@@ -2,7 +2,7 @@ from collections.abc import Generator
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlmodel import Session, create_engine
+from sqlmodel import Session, create_engine, SQLModel
 
 from app.core.config import get_settings
 
@@ -25,6 +25,9 @@ def get_engine() -> Engine:
 engine = get_engine()
 session_factory = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True))
 
+
+def init_db():
+    SQLModel.metadata.create_all(engine)
 
 def get_session() -> Generator[Session, None, None]:
     """Get a session from the database."""
