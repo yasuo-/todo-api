@@ -10,6 +10,7 @@ BODY_DATA = {"title": "data"}
 CREATED_TASK = {"id": 1, "title": "data", "done": False}
 TASK_LENGTH = 2
 
+
 class TestTask:
     def test_read_tasks(self):
         response = client.get("/tasks")

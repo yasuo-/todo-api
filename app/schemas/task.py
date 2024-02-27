@@ -21,4 +21,3 @@ class Task(TaskBase):
     done: bool = Field(False, title="Task done", description="The status of the task", examples=[False])
 
     model_config = ConfigDict(from_attributes=True)
-

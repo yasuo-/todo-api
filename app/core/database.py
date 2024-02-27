@@ -2,13 +2,14 @@ from collections.abc import Generator
 
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlmodel import Session, create_engine
+from sqlmodel import Session, SQLModel, create_engine
 
 from app.core.config import get_settings
 
 
 class DatabaseURINotSetError(ValueError):
     """Exception raised when the SQLALCHEMY_DATABASE_URI is not set."""
+
     def __init__(self, message: str = "SQLALCHEMY_DATABASE_URI is not set") -> None:
         self.message = message
         super().__init__(self.message)
@@ -26,6 +27,10 @@ engine = get_engine()
 session_factory = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True))
 
 
+def init_db() -> None:
+    SQLModel.metadata.create_all(engine)
+
+
 def get_session() -> Generator[Session, None, None]:
     """Get a session from the database."""
     db = None
@@ -33,7 +38,7 @@ def get_session() -> Generator[Session, None, None]:
         db = session_factory()
         yield db
         db.commit()
-    except Exception: # noqa: BLE001
+    except Exception:  # noqa: BLE001
         if db:
             db.rollback()
     finally:

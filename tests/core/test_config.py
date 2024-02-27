@@ -6,13 +6,16 @@ from app.core.config import Settings, get_settings
 
 @pytest.fixture(autouse=True)
 def setup_env(mocker):  # noqa: ANN001, PT004
-    mocker.patch.dict("os.environ", {
-        "POSTGRES_SERVER": "test-server",
-        "POSTGRES_USER": "user",
-        "POSTGRES_PASSWORD": "password",
-        "POSTGRES_DB": "testdb",
-        "POSTGRES_PORT": "5432",
-    })
+    mocker.patch.dict(
+        "os.environ",
+        {
+            "POSTGRES_SERVER": "test-server",
+            "POSTGRES_USER": "user",
+            "POSTGRES_PASSWORD": "password",
+            "POSTGRES_DB": "testdb",
+            "POSTGRES_PORT": "5432",
+        },
+    )
 
 
 PASSWORD = "password"  # noqa: S105

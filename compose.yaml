@@ -13,6 +13,9 @@ services:
     command: uvicorn --host 0.0.0.0 app.main:app --reload
     environment:
       - WATCHFILES_FORCE_POLLING=true # hot reload
+    env_file:
+      #  - .env
+      - .env.local
     depends_on:
       - db
     ports:
@@ -24,7 +27,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-    #  - .env
       - .env.local
     restart: always
     ports:
@@ -35,8 +37,9 @@ services:
     image: dpage/pgadmin4:7.4
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-    env_file:
-      - .env.local
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@local.host
+      PGADMIN_DEFAULT_PASSWORD: postgres
     depends_on:
       - db
     restart: always
