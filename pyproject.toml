@@ -14,6 +14,7 @@ sqlalchemy = "^2.0.27"
 psycopg2-binary = "^2.9.9"
 pydantic = "^2.6.1"
 pydantic-settings = "^2.2.1"
+alembic = "^1.13.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -61,5 +62,9 @@ exclude = [
     "ARG",
 ]
 
+[tool.isort]
+skip = ["app/infra/db/base.py"]
+
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
